@@ -8,6 +8,6 @@ module.exports = new Pool({
     user:"priscilaribeiro",
     password:"",
     host: "localhost",
-    port:5432,
+    port: 5432,
     database:"gymmanger"
 })
