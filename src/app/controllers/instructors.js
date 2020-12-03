@@ -3,8 +3,14 @@ const Intl = require('intl')
 const db = require('../../config/db')
 
 module.exports = {
-    index(req,res) {        
-        return res.render("instructors/index")
+    index(req,res){    
+        db.query(`SELECT * FROM instructors`, function (err, results){
+            console.log(err)
+            if(err) return res.send("Database Error!")
+
+            return res.render("instructors/index", {instructors: results.rows})
+
+        })    
     },
 
     create(req,res){
