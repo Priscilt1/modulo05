@@ -1,16 +1,11 @@
-const { age, date } = require('../../lib/utils')
 const Intl = require('intl')
-const db = require('../../config/db')
+const instructor = require('../models/instructor')
 
 module.exports = {
-    index(req,res){    
-        db.query(`SELECT * FROM instructors`, function (err, results){
-            console.log(err)
-            if(err) return res.send("Database Error!")
-
-            return res.render("instructors/index", {instructors: results.rows})
-
-        })    
+    index(req,res) {    
+            instructor.all(function(instructors){
+                return res.render("instructors/index", {instructors})
+            })  
     },
 
     create(req,res){
@@ -25,33 +20,8 @@ module.exports = {
             }
         }
 
-        // inserindo informações na tabela no banco de dados
-        const query = `
-            INSERT INTO instructors (
-                name, 
-                avatar_url,
-                gender,
-                services,
-                birth,
-                created_at
-            ) VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING id
-        `
-
-        // esse array sera responsavel por substituir os placeholder ($1, $2...)
-        const values = [
-            req.body.name,
-            req.body.avatar_url,
-            req.body.gender,
-            req.body.services,
-            date(req.body.birth).iso,
-            date(Date.now()).iso
-        ]
-
-        db.query(query, values, function(err, results) {
-            if(err) return res.send("Database Error!")
-
-            return res.redirect(`/instructirs/${results.row[0].id}`)
+        instructor.create(req.body, function(instructor){
+            return res.redirect(`/instructirs/${instructors.id}`)
         })
         
     },
