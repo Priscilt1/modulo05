@@ -1,5 +1,7 @@
 const Intl = require('intl')
 const instructor = require('../models/instructor')
+const { age, date } = require('../../lib/utils')
+
 
 module.exports = {
     index(req,res) {    
@@ -21,13 +23,21 @@ module.exports = {
         }
 
         instructor.create(req.body, function(instructor){
-            return res.redirect(`/instructirs/${instructors.id}`)
+            return res.redirect(`/instructors/${instructors.id}`)
         })
         
     },
-
     show(req,res){
-        return
+        instructor.find(req.params.id, function(instructor) {
+            if (!instructor) return res.send ("Instrutor não encontrado")
+
+            instructor.age = age(instructor.birth)
+            instructor.services = instructor.services.split(",")
+
+            instructor.created_at = date(instructor.created_at).format
+
+            return res.render("instructors/show", {instructor})
+        })
     },
 
     edit(req,res){
