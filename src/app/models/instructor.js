@@ -36,18 +36,17 @@ module.exports = {
         ]
 
         db.query(query, values, function(err, results) {
-            if(err) return res.send("Database Error!")
-
+            // if(err) return res.send("Database Error!")
             callback(results.rows[0])
         })
     },
-    find(id, callback) {
+    find(id, callback, res) {
         db.query(`
-        SELECT * 
-        FROM instructors 
-        WHERE id = $1`, [id], function(err, results) {
-            if(err) return res.send("Database Error!")
-            callback(results.rows[0])
+            SELECT * 
+            FROM instructors 
+            WHERE id = $1`, [id], function(err, results) {
+                if(err) return res.send("Database Error!")                
+                callback(results && results.rows && results.rows[0])                
         })
     }
 }

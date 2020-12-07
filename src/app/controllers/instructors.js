@@ -1,11 +1,15 @@
 const Intl = require('intl')
-const instructor = require('../models/instructor')
+const Instructor = require('../models/Instructor')
 const { age, date } = require('../../lib/utils')
 
 
 module.exports = {
-    index(req,res) {    
-            instructor.all(function(instructors){
+    index(req,res) {  
+        // const myCallback = function(instructors) {
+        //     return res.render("instructors/index", {instructors})
+        // }
+        // Instructor.all(myCallback)  
+            Instructor.all(function(instructors){
                 return res.render("instructors/index", {instructors})
             })  
     },
@@ -22,14 +26,14 @@ module.exports = {
             }
         }
 
-        instructor.create(req.body, function(instructor){
-            return res.redirect(`/instructors/${instructors.id}`)
+        Instructor.create(req.body, function(instructor){
+            return res.redirect(`/instructors/${instructor.id}`)
         })
         
     },
     show(req,res){
-        instructor.find(req.params.id, function(instructor) {
-            if (!instructor) return res.send ("Instrutor não encontrado")
+        Instructor.find(req.params.id, function(instructor) {
+            if (!instructor) return res.send ("Instrutor não encontrado!")            
 
             instructor.age = age(instructor.birth)
             instructor.services = instructor.services.split(",")
@@ -37,11 +41,17 @@ module.exports = {
             instructor.created_at = date(instructor.created_at).format
 
             return res.render("instructors/show", {instructor})
-        })
+        }, res)
     },
 
     edit(req,res){
-        return
+        Instructor.find(req.params.id, function(instructor) {
+            if (!instructor) return res.send ("Instrutor não encontrado")
+
+            instructor.birth = date(instructor.birth).iso
+
+            return res.render("instructors/edit", {instructor})
+        })
     },
 
     put(req,res){
