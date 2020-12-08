@@ -5,8 +5,7 @@ module.exports = {
     all(callback) {
 
         db.query(`SELECT * FROM instructors`, function (err, results){
-            if(err) return res.send("Database Error!")
-
+            if(err) throw `Database error! ${err}`    
             callback(results.rows)
         })
 
@@ -36,20 +35,20 @@ module.exports = {
         ]
 
         db.query(query, values, function(err, results) {
-            // if(err) return res.send("Database Error!")
+            if(err) throw `Database error! ${err}`            
             callback(results.rows[0])
         })
     },
-    find(id, callback, res) {
+    find(id, callback) {
         db.query(`
             SELECT * 
             FROM instructors 
             WHERE id = $1`, [id], function(err, results) {
-                if(err) return res.send("Database Error!")                
+                if(err) throw `Database error! ${err}`             
                 callback(results && results.rows && results.rows[0])                
         })
     },
-    update(data, callback, res) {
+    update(data, callback) {
         const query = `
             UPDATE instructors SET
                 avatar_url=($1),
@@ -70,7 +69,7 @@ module.exports = {
         ]
 
         db.query(query, values, function(err, results){
-            if(err) return res.send("Database Error!")                
+            if(err) `Database error! ${err}`              
             callback()
         })
     }
