@@ -11,9 +11,9 @@ module.exports = {
             LEFT JOIN members ON (instructors.id = members.instructor_id)
             GROUP BY instructors.id
             ORDER BY total_students DESC
-        `, function (err, results){
-            if(err) throw `Database error! ${err}`    
-            callback(results.rows)
+            `, function (err, results){
+                if(err) throw `Database error! ${err}`    
+                callback(results.rows)
         })
 
     },
@@ -53,6 +53,19 @@ module.exports = {
             WHERE id = $1`, [id], function(err, results) {
                 if(err) throw `Database error! ${err}`             
                 callback(results && results.rows && results.rows[0])                
+        })
+    },
+    findBy(filter, callback){
+        db.query(`
+            SELECT instructors.*, count(members) AS total_students 
+            FROM instructors
+            LEFT JOIN members ON (instructors.id = members.instructor_id)
+            WHERE instructors.name ILIKE '%${filter}%'
+            GROUP BY instructors.id
+            ORDER BY total_students DESC
+            `, function (err, results){
+                if(err) throw `Database error! ${err}`    
+                callback(results.rows)
         })
     },
     update(data, callback) {
