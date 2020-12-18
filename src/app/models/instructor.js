@@ -102,5 +102,8 @@ module.exports = {
                 if(err) throw `Database error! ${err}`             
                 return callback()
         })
+    },
+    paginate(params) {
+        
     }
 }
