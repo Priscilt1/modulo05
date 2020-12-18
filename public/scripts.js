@@ -6,3 +6,17 @@ for (item of menuItems) {
         item.classList.add("active")
     } 
 }
+
+//PAGINACAO
+// suponhando que teremos 20 paginas 
+let totalPages = 20,
+selectedPage = 15.
+pages = []
+
+for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
+    if(currentPage == 1 || currentPage totalPages) {
+        pages.push(currentPage)
+    }
+}
+
+console.log(pages)
