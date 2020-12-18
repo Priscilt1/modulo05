@@ -8,29 +8,28 @@ for (item of menuItems) {
 }
 
 //PAGINACAO
-// suponhando que teremos 20 paginas 
-let totalPages = 20,
-selectedPage = 16,
-pages = [],
-oldPage
+function pagination (selectedPage, totalPages) {
+    let pages = [],
+        oldPage
 
-for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
-    const firstAndLastPage = currentPage == 1 || currentPage == totalPages
-    const pagesAfterSelectedPage = currentPage <= selectedPage + 2
-    const pagesBeforeSelectedPage = currentPage >= selectedPage -2
-    
-    if(firstAndLastPage || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
-       if (oldPage && currentPage - oldPage >2) {
-           pages.push('...')
-       }
-       
-       if (oldPage && currentPage - oldPage == 2) {
-            pages.push(oldPage + 1)
-       }
+    for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
+        const firstAndLastPage = currentPage == 1 || currentPage == totalPages
+        const pagesAfterSelectedPage = currentPage <= selectedPage + 2
+        const pagesBeforeSelectedPage = currentPage >= selectedPage -2
+        
+        if(firstAndLastPage || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+        if (oldPage && currentPage - oldPage >2) {
+            pages.push('...')
+        }
+        
+        if (oldPage && currentPage - oldPage == 2) {
+                pages.push(oldPage + 1)
+        }
 
-        pages.push(currentPage)
-        oldPage = currentPage
+            pages.push(currentPage)
+            oldPage = currentPage
+        }
     }
-}
 
-console.log(pages)
+    return pages
+}
