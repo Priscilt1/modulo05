@@ -18,6 +18,7 @@ module.exports = {
             limit,
             offset,
             callback(instructors) {
+                return res.render("instructors/index", {instructors, filter})
 
             }
         }
@@ -26,7 +27,6 @@ module.exports = {
 
         // if ( filter ) {
         //     Instructor.findBy(filter, function(instructors){
-        //         return res.render("instructors/index", {instructors, filter})
         //     })  
         // } else {
         //     Instructor.all(function(instructors) {
