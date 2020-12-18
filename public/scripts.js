@@ -9,9 +9,10 @@ for (item of menuItems) {
 
 //PAGINACAO
 // suponhando que teremos 20 paginas 
-let totalPages = 20
-selectedPage = 15
-pages = []
+let totalPages = 20,
+selectedPage = 16,
+pages = [],
+oldPage
 
 for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
     const firstAndLastPage = currentPage == 1 || currentPage == totalPages
@@ -19,7 +20,16 @@ for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
     const pagesBeforeSelectedPage = currentPage >= selectedPage -2
     
     if(firstAndLastPage || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+       if (oldPage && currentPage - oldPage >2) {
+           pages.push('...')
+       }
+       
+       if (oldPage && currentPage - oldPage == 2) {
+            pages.push(oldPage + 1)
+       }
+
         pages.push(currentPage)
+        oldPage = currentPage
     }
 }
 
