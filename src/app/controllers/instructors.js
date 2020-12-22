@@ -21,7 +21,7 @@ module.exports = {
 
                 const pagination = {
                     filter,
-                    total: Math.ceil(instructor[0].total / limit),
+                    total: Math.ceil(instructors[0].total / limit),
                     page
                 }
                 return res.render("instructors/index", {instructors, pagination, filter})
